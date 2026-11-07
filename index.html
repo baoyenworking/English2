@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fun English – Grade 2</title>
+<style>
+:root{--bg:#fff8e7;--card:#fff;--ink:#2b2a4c;--pri:#4f46e5;--ok:#16a34a;--bad:#dc2626;--soft:#eef2ff;--line:#e5def5;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17162b;--card:#24233f;--ink:#f3f0ff;--pri:#8b84ff;--soft:#2f2e52;--line:#3a3963;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#17162b;--card:#24233f;--ink:#f3f0ff;--pri:#8b84ff;--soft:#2f2e52;--line:#3a3963;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Baloo 2","Comic Sans MS","Segoe UI",system-ui,sans-serif;min-height:100vh}
+main{max-width:720px;margin:0 auto;padding:16px}
+h1{font-size:28px;margin:8px 0;text-align:center}
+.sub{text-align:center;opacity:.8;margin:0 0 16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.btn{font:inherit;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:18px;padding:14px;cursor:pointer;font-size:18px;text-align:center}
+.btn:active{transform:scale(.97)}
+.unit b{display:block;font-size:13px;color:var(--pri)}
+.unit span{font-size:26px}
+.card{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:18px;margin:12px 0;text-align:center}
+.big{font-size:84px;line-height:1.1}
+.q{font-size:24px;margin:8px 0 16px}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px}
+.opts .btn{font-size:26px;font-weight:700}
+.ok{background:var(--ok);color:#fff;border-color:var(--ok)}
+.no{background:var(--bad);color:#fff;border-color:var(--bad)}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.pri{background:var(--pri);color:#fff;border-color:var(--pri)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;min-height:52px;padding:8px;border-radius:14px;background:var(--soft);margin:10px 0}
+.chip{font:inherit;font-size:20px;padding:8px 14px;border-radius:12px;border:2px solid var(--pri);background:var(--card);color:var(--ink);cursor:pointer}
+.msg{min-height:28px;font-size:20px;font-weight:700}
+.stars{font-size:40px}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<script>
+var U=[
+{n:"At my birthday party",e:"🎂",w:[["pasta","🍝"],["popcorn","🍿"],["pizza","🍕"]],g:[["The ___ is yummy.",["pizza","kite","sea"],"pizza"],["The popcorn ___ yummy.",["is","are","can"],"is"]],o:"The popcorn is yummy."},
+{n:"In the backyard",e:"🪁",w:[["kite","🪁"],["bike","🚲"],["kitten","🐱"]],g:[["Is she flying a kite? Yes, she ___.",["is","isn’t","can"],"is"],["Is he riding a bike? No, he ___.",["isn’t","is","are"],"isn’t"]],o:"Is she flying a kite?"},
+{n:"At the seaside",e:"🏖️",w:[["sail","⛵"],["sand","🏖️"],["sea","🌊"]],g:[["Let’s ___ at the sea!",["look","eat","draw"],"look"],["Let’s look at the ___!",["sea","pasta","quiz"],"sea"]],o:"Let’s look at the sea!"},
+{n:"In the countryside",e:"🌈",w:[["rainbow","🌈"],["river","🏞️"],["road","🛣️"]],g:[["What can you ___?",["see","sea","say"],"see"],["I can see a ___.",["rainbow","pizza","jam"],"rainbow"]],o:"I can see a rainbow."},
+{n:"In the classroom",e:"🏫",w:[["question","❓"],["square","⬜"],["quiz","📝"]],g:[["What’s he doing? He’s doing a ___.",["quiz","road","jelly"],"quiz"],["What’s he ___?",["doing","do","does"],"doing"]],o:"He’s doing a quiz."},
+{n:"On the farm",e:"🦊",w:[["box","📦"],["fox","🦊"],["ox","🐂"]],g:[["Is there a fox? Yes, there ___.",["is","isn’t","can"],"is"],["Is there an ox? No, there ___.",["isn’t","is","can"],"isn’t"]],o:"Is there a fox?"},
+{n:"In the kitchen",e:"🍓",w:[["juice","🧃"],["jelly","🍮"],["jam","🍓"]],g:[["Pass me the ___, please.",["jam","sea","kite"],"jam"],["Here you ___.",["are","is","can"],"are"]],o:"Pass me the jam, please."},
+{n:"In the village",e:"🏘️",w:[["village","🏘️"],["van","🚐"],["volleyball","🏐"]],g:[["Can you draw a van? Yes, I ___.",["can","can’t","is"],"can"],["Can you draw a van? No, I ___.",["can’t","can","is"],"can’t"]],o:"Can you draw a van?"}
+];
+var app=document.getElementById("app"),S={};
+function sh(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
+function say(t){try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t.replace(/___/g,"blank"));u.lang="en-US";u.rate=.8;speechSynthesis.speak(u)}catch(e){}}
+function allW(){var r=[];U.forEach(function(u){r=r.concat(u.w)});return r}
+function home(){
+  var h='<h1>🌟 Fun English – Grade 2</h1><p class="sub">Pick a unit and let’s play!</p><div class="grid">';
+  U.forEach(function(u,i){h+='<button class="btn unit" onclick="menu('+i+')"><b>Unit '+(i+1)+'</b><span>'+u.e+'</span><br>'+u.n+'</button>'});
+  h+='<button class="btn unit pri" onclick="menu(-1)"><b>All</b><span>🎲</span><br>Mixed review</button></div>';
+  app.innerHTML=h}
+function menu(i){
+  S.u=i;var t=i<0?"Mixed review":"Unit "+(i+1)+": "+U[i].n;
+  var m=[["listen","🎧","Listen and pick"],["see","👀","Look and choose"],["gram","✏️","Fill in the blank"],["order","🧩","Put in order"]];
+  var h='<button class="btn" onclick="home()">← Home</button><h1>'+t+'</h1><div class="grid">';
+  m.forEach(function(x){h+='<button class="btn" onclick="start(\''+x[0]+'\')"><span style="font-size:40px">'+x[1]+'</span><br>'+x[2]+'</button>'});
+  app.innerHTML=h+'</div>'}
+function start(mode){
+  var us=S.u<0?U:[U[S.u]],Q=[],aw=allW();
+  if(mode=="listen"||mode=="see"){
+    var pool=[];us.forEach(function(u){pool=pool.concat(u.w)});
+    sh(pool.concat(S.u<0?[]:pool)).slice(0,S.u<0?8:6).forEach(function(w){
+      var d=sh(aw.filter(function(x){return x[0]!=w[0]})).slice(0,2);
+      Q.push({t:mode,w:w,o:sh([w].concat(d))})})}
+  else if(mode=="gram"){var p=[];us.forEach(function(u){p=p.concat(u.g)});sh(p).slice(0,8).forEach(function(g){Q.push({t:"gram",g:g,o:sh(g[1])})})}
+  else{sh(us).forEach(function(u){Q.push({t:"order",s:u.o})})}
+  S.Q=Q;S.i=0;S.sc=0;S.mode=mode;show()}
+function show(){
+  if(S.i>=S.Q.length)return end();
+  var q=S.Q[S.i],h='<div class="bar"><button class="btn" onclick="menu('+S.u+')">✖</button><b>Question '+(S.i+1)+'/'+S.Q.length+' · ⭐ '+S.sc+'</b></div><div class="card">';
+  if(q.t=="listen"){h+='<div class="q">Listen and pick the right picture</div><button class="btn pri" onclick="say(\''+q.w[0]+'\')">🔊 Listen again</button><div class="opts" style="margin-top:14px">';
+    q.o.forEach(function(x){h+='<button class="btn" style="font-size:56px" onclick="pick(this,'+(x[0]==q.w[0])+')">'+x[1]+'</button>'});setTimeout(function(){say(q.w[0])},300)}
+  else if(q.t=="see"){h+='<div class="big">'+q.w[1]+'</div><div class="q">What is it?</div><div class="opts">';
+    q.o.forEach(function(x){h+='<button class="btn" onclick="pick(this,'+(x[0]==q.w[0])+',\''+x[0]+'\')">'+x[0]+'</button>'})}
+  else if(q.t=="gram"){h+='<div class="q">'+q.g[0]+'</div><div class="opts">';
+    q.o.forEach(function(x){h+='<button class="btn" onclick="pick(this,'+(x==q.g[2])+',\''+x+'\',1)">'+x+'</button>'})}
+  else{var ws=sh(q.s.split(" "));S.pool=ws;S.sel=[];h+='<div class="q">Put the words in order</div><div class="chips" id="ans"></div><div class="chips" id="pool"></div><button class="btn pri" onclick="chk()">Check</button>'}
+  app.innerHTML=h+'</div><div class="msg" id="msg"></div>';
+  if(q.t=="order")ren()}
+function pick(b,ok,txt,g){
+  var bs=b.parentNode.querySelectorAll("button");bs.forEach(function(x){x.disabled=true});
+  b.className="btn "+(ok?"ok":"no");var m=document.getElementById("msg");
+  if(ok){S.sc++;m.textContent="🎉 Great job!";if(txt)say(S.Q[S.i].g?S.Q[S.i].g[0].replace("___",txt):txt)}else m.textContent="😅 Try again next time!";
+  S.i++;setTimeout(show,1100)}
+function ren(){
+  var a=document.getElementById("ans"),p=document.getElementById("pool");a.innerHTML="";p.innerHTML="";
+  S.sel.forEach(function(i){var c=document.createElement("button");c.className="chip";c.textContent=S.pool[i];c.onclick=function(){S.sel.splice(S.sel.indexOf(i),1);ren()};a.appendChild(c)});
+  S.pool.forEach(function(w,i){if(S.sel.indexOf(i)<0){var c=document.createElement("button");c.className="chip";c.textContent=w;c.onclick=function(){S.sel.push(i);ren()};p.appendChild(c)}})}
+function chk(){
+  var q=S.Q[S.i],r=S.sel.map(function(i){return S.pool[i]}).join(" "),m=document.getElementById("msg");
+  if(r==q.s){S.sc++;m.textContent="🎉 Correct!";say(q.s);S.i++;setTimeout(show,1500)}else m.textContent="🤔 Not yet, try again!"}
+function end(){
+  var r=S.sc/S.Q.length,st=r>=.8?"⭐⭐⭐":r>=.5?"⭐⭐":"⭐";
+  app.innerHTML='<div class="card"><div class="stars">'+st+'</div><h1>Well done!</h1><p class="q">You got '+S.sc+' out of '+S.Q.length+'</p><button class="btn pri" onclick="start(S.mode)">🔁 Play again</button> <button class="btn" onclick="menu('+S.u+')">Other games</button></div>'}
+home();
+</script>
+</body>
+</html>
